@@ -18,10 +18,9 @@ public class Driver {
         DumpReader r = new DumpReader();
         List<String> output = null;
         try {
-            r.readFile("/Users/Keinan/NetBeansProjects/CompSecurityLab1/lib/memorydump.dmp");
+            r.readFile("D:\\NetBeansProjects\\CompSecurityLab1\\lib\\memorydump.dmp");
         } catch (Exception ex) {
             Logger.getLogger(Driver.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(output);
     }
 }
