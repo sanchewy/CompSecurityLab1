@@ -23,32 +23,44 @@ public class DumpReader {
         PrintWriter out = new PrintWriter("output.txt");
         FileInputStream is = new FileInputStream(filename);
         ArrayList<String> saveLines = new ArrayList<String>();
+        ArrayList<String> saveTrack2 = new ArrayList<String>();
 
         while(is.read(buffer) != -1){ //First pass gets the track 1 data
             String s = new String(buffer);
             if(s.contains ("%B")) {
                 String s1 = s;
-                while(addLine(s1) == null) {
+                while(track1search(s1) == null) {
                     is.read(buffer);
                     s1 = s1.concat(new String(buffer));
                 }
-                saveLines.add(addLine(s1));
+                System.out.println("Found one");
+                saveLines.add(track2search(s1));
             }   
         }
         String[][] t1info = track1sep(saveLines);
-        for(int i = 0; i < t1info[0].length; i++) {
-            System.out.println(t1info[6][i]);
-            
-        }
+//        for(int i = 0; i < t1info[0].length; i++) {
+//            System.out.println(t1info[5][i]);
+//            
+//        }
         System.out.println(t1info);
-//        is.reset();
-//        while(is.read(buffer) != -1) { //Second pass gets track2 data
-//            String s = new String(buffer);
-//            if(s.contains)
-//        } 
-       System.out.println(saveLines);
+        FileInputStream is2 = new FileInputStream(filename);
+        while(is2.read(buffer) != -1) { //Second pass gets track2 data
+            String s = new String(buffer);
+            for(int i = 0; i < t1info.length; i++) {
+                String ent = t1info[i][2];
+                ent = ";"+ent;
+                if(s.contains(ent)){
+                    String s1 = s;
+                    while(track2search(s) == null){
+                        is2.read(buffer);
+                        s1 = s1.concat(new String(buffer));
+                    }
+                }
+            }
+        } 
+        System.out.println(saveLines);
     }
-    public String addLine(String s) {        
+    public String track1search(String s) {        
         int startLoc = 0;
         boolean sls = false;
         int endLoc = 0;
@@ -79,6 +91,37 @@ public class DumpReader {
         return out;  //will be null
     }
     
+    public String track2search(String s) {
+        int startLoc = 0;
+        boolean sls = false;
+        int endLoc = 0;
+        char[] ch = s.toCharArray();
+        String out = null;
+        
+        for(int i = 0; i < ch.length; i++) {
+            if(ch[i] == '%' && startLoc == 0){
+                startLoc = i;
+                sls = true;
+            }
+            else if(ch[i] == '?'){
+                if(i > startLoc && sls && endLoc == 0){
+                    endLoc = i; 
+                    break;
+                }
+            }
+            else if(ch[i] == ';') {
+                if(i > startLoc && sls && endLoc == 0){
+                    endLoc = i-1; 
+                    break;
+                }
+            }
+        }
+        if(startLoc < endLoc){    //If track1 data is good
+            out = s.substring(startLoc, endLoc+1);   //Save track 1 data
+        }
+        return out;  //will be null
+    }
+
     public String[][] track1sep(ArrayList<String> a) {
         //a.size #entries and 9 fields per entry | SS | FC |  PAN  | FS |   First Name | Last Name  | FS |  Addi6onal Data | ES | LR |
         String[][] accInfo = new String[a.size()][13];
