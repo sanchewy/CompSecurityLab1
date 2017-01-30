@@ -1,1 +1,3 @@
-Test file for lab 1.
+Test file for lab 1.Ã string çöntäining nön äsçii çhäräçters
+
+��

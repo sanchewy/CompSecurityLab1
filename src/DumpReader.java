@@ -1,7 +1,19 @@
 
 import java.io.FileInputStream;
 import java.io.PrintWriter;
+
 import java.util.ArrayList;
+
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.List;
+import java.lang.*;
+import static javax.script.ScriptEngine.FILENAME;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,6 +25,7 @@ import java.util.ArrayList;
  * @author Keinan
  */
 public class DumpReader {
+//<<<<<<< Updated upstream
 
     public void readFile(String filename) throws Exception {
         String file = filename;
@@ -251,4 +264,29 @@ public class DumpReader {
         }
         return accInfo;
     }
+//    public void readFile(String filename) throws Exception
+//        {            
+//            
+//            String file = filename;
+//            byte[] buffer = new byte[100];
+//            PrintWriter out = new PrintWriter("output.txt");
+//            FileInputStream is = new FileInputStream(filename);
+//            while(is.read(buffer) != -1) {
+//                String s = new String(buffer);
+//                if(s.contains("%B")){
+//                    System.out.println("Found one");
+//                }
+//            }
+////            while(is.read(buffer) != -1){
+////                String s = new String(buffer);
+////                if(s.contains("%B")){
+////                    byte[] buff2 = new byte[50];
+////                    buff2 = 
+////                }
+////                String binary = new BigInteger(s.getBytes()).toString(2);
+//////                System.out.println(s);
+////                out.println(s);
+////            }
+//        }
+
 }
